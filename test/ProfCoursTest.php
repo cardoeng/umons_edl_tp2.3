@@ -16,7 +16,7 @@ class ProfCoursTest extends TestCase
     const DB_USER = "user01";
     const DB_PASS = "user01";
     const DB_NAME = "user01_test_php";
-    const DB_HOST = "192.168.250.3";
+    const DB_HOST = "sqlite://project.sql";
 
     public static $conn = null;
     // Prof
@@ -176,16 +176,20 @@ class ProfCoursTest extends TestCase
         
         // Cours
         
-        print "ADD cours\n";
-        foreach (self::$cours_a as $cours) {
-            $cours->add($conn);
-        }
-        
         /**
         *
         * Question 8 : Dans la fonction « testAdd() », s’inspirer de test d’ajout des profs pour tester l’ajout des cours.   
         *
         */
+        
+        print "ADD cours\n";
+        foreach (self::$cours_a as $cours) {
+            $cours->add($conn);
+        }
+        $expected = count(self::$cours_a);
+        $num_records = Cours::count($conn);
+        $this->assertEquals($expected, $num_records, "Enregistrement des cours ...\n");
+        $this->assertCount($num_records, self::$cours_a, "Enregistrement des cours ...\n");
         
     }
     
@@ -219,6 +223,14 @@ class ProfCoursTest extends TestCase
         *
         */
   
+        // Prof
+        $record_cours_a = Cours::printAll($conn);
+        print "########## - LISTE DES COURS - AVANT TOUT ########## \n";
+        foreach ( $record_cours_a as $record_cours ) {
+            print $record_cours;
+        }
+        print "################################################################\n\n";
+        $this->assertCount(count(Self::$cours_a), $record_cours_a, "Nombre d'enregistrement égale pour Cours\n");
         
     }
     
