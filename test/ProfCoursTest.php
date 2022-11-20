@@ -16,7 +16,7 @@ class ProfCoursTest extends TestCase
     const DB_USER = "user01";
     const DB_PASS = "user01";
     const DB_NAME = "user01_test_php";
-    const DB_HOST = "sqlite://project.sql";
+    const DB_HOST = "project.db";
 
     public static $conn = null;
     // Prof
@@ -26,7 +26,7 @@ class ProfCoursTest extends TestCase
     private $lieu ="Toulouse, France"; // a changer
 
     // cours
-    private $intitule="Intégratoin continue"; //a remplir
+    private $intitule="Intégration continue"; //a remplir
     private $duree="3h";    //a remplir
 
     private static $prof_a = [];
@@ -38,7 +38,7 @@ class ProfCoursTest extends TestCase
         if(self::$conn===null){
             try {
                 if (file_exists(self::SQL_FILE)) {
-                    self::$conn = new \PDO('mysql:host=' . self::DB_HOST . ';charset=utf8', self::DB_USER, self::DB_PASS);
+                    self::$conn = new \PDO('sqlite:' . self::DB_HOST . ';charset=utf8', self::DB_USER, self::DB_PASS);
                     self::$conn->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
                     self::$conn->setAttribute(\PDO::ATTR_DEFAULT_FETCH_MODE, \PDO::FETCH_ASSOC);
                     $sql_db = file_get_contents(self::SQL_FILE);
